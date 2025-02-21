@@ -11,7 +11,7 @@ const server = http.createServer(app);
 // Socket.IO setup
 const io = socketIO(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",
     methods: ["GET", "POST"]
   }
 });
@@ -32,8 +32,10 @@ app.use((req, res, next) => {
   next();
 });
 
+const uri = process.env.MONGO_DB_URI;
+console.log(uri);
 // MongoDB Connection
-mongoose.connect('mongodb://localhost:27017/attendance-tracker', {
+mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })

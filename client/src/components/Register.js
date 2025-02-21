@@ -14,7 +14,7 @@ const Register = () => {
   const [error, setError] = useState("");
   const UniquTeacherCode = "123456";
   const navigate = useNavigate();
-  const Endpoint = process.env.BACKEND_API_ENDPOINT || "http://localhost:5000";
+  const Endpoint = process.env.BACKEND_API_ENDPOINT  ;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

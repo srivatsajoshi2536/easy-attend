@@ -13,7 +13,7 @@ import {
   ResponsiveContainer
 } from 'recharts';
 
-const Endpoint = process.env.BACKEND_API_ENDPOINT || "http://localhost:5000";
+const Endpoint = process.env.BACKEND_API_ENDPOINT  ;
 
 const socket = io(Endpoint);
 

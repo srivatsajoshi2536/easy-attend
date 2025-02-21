@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 import ManageStudents from "./ManageStudents";
 import NewClass from "./NewClass";
 
-const Endpoint = process.env.BACKEND_API_ENDPOINT || "http://localhost:5000";
+const Endpoint = process.env.BACKEND_API_ENDPOINT  ;
 const socket = io(Endpoint);
 
 const ClassDetails = ({ classData, onClose, onAttendanceUpdate }) => {

@@ -8,7 +8,7 @@ const ManageStudents = ({ classId, onClose, onStudentAdded }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const Endpoint = process.env.BACKEND_API_ENDPOINT || "http://localhost:5000";
+  const Endpoint = process.env.BACKEND_API_ENDPOINT;
 
   useEffect(() => {
     if (!classId) {

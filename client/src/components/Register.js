@@ -1,27 +1,41 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    password: '',
-    role: 'student',
-    studentId: ''
+    name: "",
+    email: "",
+    password: "",
+    role: "student",
+    studentId: "",
+    teacherkey: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const UniquTeacherCode = "123456";
   const navigate = useNavigate();
+  const Endpoint = process.env.BACKEND_API_ENDPOINT || "http://localhost:5000";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', formData);
-      console.log('Registration successful:', res.data);
-      navigate('/login');
+      if(formData.role === "teacher") {
+        console.log("Teacher key is", formData.teacherkey);
+        console.log("UniquTeacherCode: ", UniquTeacherCode);
+        if(formData.teacherkey !== UniquTeacherCode) {
+          setError("Invalid Teacher Key");
+          return;
+        }
+      }
+      const res = await axios.post(
+        `${Endpoint}/api/auth/register`,
+        formData
+      );
+      console.log("Registration successful:", res.data);
+      navigate("/login");
     } catch (err) {
-      setError(err.response?.data?.message || 'Registration failed');
-      console.error('Registration error:', err);
+      setError(err.response?.data?.message || "Registration failed");
+      console.error("Registration error:", err);
     }
   };
 
@@ -47,7 +61,9 @@ const Register = () => {
             type="email"
             placeholder="Email"
             value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, email: e.target.value })
+            }
             className="w-full px-3 py-2 border rounded-md"
             required
           />
@@ -55,7 +71,9 @@ const Register = () => {
             type="password"
             placeholder="Password"
             value={formData.password}
-            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, password: e.target.value })
+            }
             className="w-full px-3 py-2 border rounded-md"
             required
           />
@@ -68,12 +86,25 @@ const Register = () => {
             <option value="student">Student</option>
             <option value="teacher">Teacher</option>
           </select>
-          {formData.role === 'student' && (
+          {formData.role === "student" ? (
             <input
               type="text"
               placeholder="Student ID"
               value={formData.studentId}
-              onChange={(e) => setFormData({ ...formData, studentId: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, studentId: e.target.value })
+              }
+              className="w-full px-3 py-2 border rounded-md"
+              required
+            />
+          ) : (
+            <input
+              type="text"
+              placeholder="Teacher Key"
+              value={formData.teacherkey}
+              onChange={(e) =>
+                setFormData({ ...formData, teacherkey: e.target.value })
+              }
               className="w-full px-3 py-2 border rounded-md"
               required
             />
@@ -90,4 +121,4 @@ const Register = () => {
   );
 };
 
-export default Register; 
+export default Register;

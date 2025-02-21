@@ -13,7 +13,9 @@ import {
   ResponsiveContainer
 } from 'recharts';
 
-const socket = io('http://localhost:5000');
+const Endpoint = process.env.BACKEND_API_ENDPOINT || "http://localhost:5000";
+
+const socket = io(Endpoint);
 
 const StudentDashboard = () => {
   const [attendance, setAttendance] = useState([]);
@@ -33,7 +35,7 @@ const StudentDashboard = () => {
       setLoading(true);
       console.log('Fetching attendance for student:', user.id);
       
-      const res = await axios.get('http://localhost:5000/api/attendance/student', {
+      const res = await axios.get(`${Endpoint}/api/attendance/student`, {
         headers: { Authorization: localStorage.getItem('token') }
       });
       

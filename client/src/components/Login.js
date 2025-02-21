@@ -9,6 +9,8 @@ const Login = () => {
   });
   const [error, setError] = useState('');
   const navigate = useNavigate();
+  const Endpoint = process.env.BACKEND_API_ENDPOINT || "http://localhost:5000";
+  console.log("Endpoint: ",Endpoint);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +19,7 @@ const Login = () => {
     try {
       console.log('Attempting login with:', formData); // Debug log
       
-      const res = await axios.post('http://localhost:5000/api/auth/login', formData);
+      const res = await axios.post(`${Endpoint}/api/auth/login`, formData);
       console.log('Login response:', res.data); // Debug log
       
       localStorage.setItem('token', res.data.token);

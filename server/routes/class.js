@@ -12,7 +12,7 @@ router.get('/test', (req, res) => {
 router.post('/create', verifyToken, async (req, res) => {
   try {
     console.log('Creating class:', req.body);
-    
+
     if (!req.user || req.user.role !== 'teacher') {
       return res.status(403).json({ message: 'Access denied - Teacher role required' });
     }
@@ -30,7 +30,7 @@ router.post('/create', verifyToken, async (req, res) => {
 
     const savedClass = await newClass.save();
     console.log('Created class:', savedClass);
-    
+
     // Verify the class was saved with a name
     const verifiedClass = await Class.findById(savedClass._id);
     console.log('Verified saved class:', verifiedClass);
@@ -38,6 +38,30 @@ router.post('/create', verifyToken, async (req, res) => {
     res.json(savedClass);
   } catch (err) {
     console.error('Error creating class:', err);
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Delete a class
+router.delete('/:classId', verifyToken, async (req, res) => {
+  try {
+    console.log('Deleting class:', req.params.classId);
+
+    const classDoc = await Class.findById(req.params.classId);
+    if (!classDoc) {
+      return res.status(404).json({ message: 'Class not found' });
+    }
+
+    // Verify teacher ownership
+    if (classDoc.teacher.toString() !== req.user.id) {
+      return res.status(403).json({ message: 'Access denied' });
+    }
+
+    await classDoc.deleteOne();
+    console.log('Deleted class:', classDoc);
+    res.json(classDoc);
+  } catch (err) {
+    console.error('Error deleting class:', err);
     res.status(500).json({ message: err.message });
   }
 });
@@ -85,7 +109,7 @@ router.post('/add-students', verifyToken, async (req, res) => {
 router.get('/:classId/students', verifyToken, async (req, res) => {
   try {
     console.log('Fetching students for class:', req.params.classId);
-    
+
     const classDoc = await Class.findById(req.params.classId)
       .populate({
         path: 'students',
@@ -114,4 +138,4 @@ router.get('/:classId/students', verifyToken, async (req, res) => {
   }
 });
 
-module.exports = router; 
+module.exports = router;

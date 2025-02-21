@@ -8,6 +8,7 @@ const ManageStudents = ({ classId, onClose, onStudentAdded }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const Endpoint = process.env.BACKEND_API_ENDPOINT || "http://localhost:5000";
 
   useEffect(() => {
     if (!classId) {
@@ -22,7 +23,7 @@ const ManageStudents = ({ classId, onClose, onStudentAdded }) => {
   const fetchAvailableStudents = async () => {
     try {
       console.log('Fetching available students');
-      const res = await axios.get('http://localhost:5000/api/auth/unassigned-students', {
+      const res = await axios.get(`${Endpoint}/api/auth/unassigned-students`, {
         headers: { Authorization: localStorage.getItem('token') }
       });
       console.log('Available students:', res.data);
@@ -55,7 +56,7 @@ const ManageStudents = ({ classId, onClose, onStudentAdded }) => {
       });
 
       const response = await axios.post(
-        'http://localhost:5000/api/class/add-students',
+        `${Endpoint}/api/class/add-students`,
         {
           classId,
           studentIds: selectedStudents

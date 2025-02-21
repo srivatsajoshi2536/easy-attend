@@ -4,6 +4,7 @@ import axios from 'axios';
 const NewClass = ({ onClose, onClassCreated }) => {
   const [className, setClassName] = useState('');
   const [error, setError] = useState('');
+  const Endpoint = process.env.BACKEND_API_ENDPOINT || "http://localhost:5000";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,7 +22,7 @@ const NewClass = ({ onClose, onClassCreated }) => {
 
       // First, test if the route exists
       try {
-        const testResponse = await axios.get('http://localhost:5000/api/class/test');
+        const testResponse = await axios.get(`${Endpoint}/api/class/test`);
         console.log('Route test response:', testResponse.data);
       } catch (testErr) {
         console.error('Route test failed:', testErr);
@@ -29,7 +30,7 @@ const NewClass = ({ onClose, onClassCreated }) => {
 
       // Then try to create the class
       const res = await axios.post(
-        'http://localhost:5000/api/class/create',
+        `${Endpoint}/api/class/create`,
         { name: className },
         { 
           headers: { 

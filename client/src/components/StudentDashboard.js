@@ -13,7 +13,7 @@ import {
   ResponsiveContainer
 } from 'recharts';
 
-const Endpoint = process.env.BACKEND_API_ENDPOINT  ;
+const Endpoint =  process.env.REACT_APP_BACKEND_API_ENDPOINT  ;
 
 const socket = io(Endpoint);
 

@@ -8,7 +8,8 @@ const ManageStudents = ({ classId, onClose, onStudentAdded }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const Endpoint = process.env.BACKEND_API_ENDPOINT;
+
+  const Endpoint =  process.env.REACT_APP_BACKEND_API_ENDPOINT;
 
   useEffect(() => {
     if (!classId) {

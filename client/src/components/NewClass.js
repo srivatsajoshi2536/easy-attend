@@ -4,7 +4,7 @@ import axios from 'axios';
 const NewClass = ({ onClose, onClassCreated }) => {
   const [className, setClassName] = useState('');
   const [error, setError] = useState('');
-  const Endpoint = process.env.BACKEND_API_ENDPOINT  ;
+  const Endpoint =  process.env.REACT_APP_BACKEND_API_ENDPOINT  ;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
